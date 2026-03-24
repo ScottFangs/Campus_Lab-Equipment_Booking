@@ -1,6 +1,6 @@
 # Campus_Lab-Equipment_Booking
-Advance Programming 2026 Semester 2 Group Project. Real Time Dispatch for Utech Campus Lab
-Group Members: Demario Scott, Jadon Johnson,
+Advance Programming 2025/2026 Semester 2 Group Project. Real Time Dispatch for Utech Campus Lab
+Group Members: Demario Scott (2106675), Jadon Johnson (2007278), Abigail Bembridge (2305624), Giomar Griffiths (2307401).
 
 Purpose & Context
 You are required to work in groups of four (4) members. Your group must design and
