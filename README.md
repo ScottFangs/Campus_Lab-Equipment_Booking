@@ -11,3 +11,6 @@ labs within the School of Computing & Information Technology (SCIT) and the Scho
 Engineering (SOE). A lab seat refers to a specific workstation or seating position inside a
 laboratory that a student can reserve for a given time slot. It is like booking a workstation in
 a library computer lab.
+
+To currently run the demo of the code (has no interface built yet) into the terminal to get some basic results:
+- Right 'Click ModelTest.java' in 'com.cleb.model' package and run as Java application.
