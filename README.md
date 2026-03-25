@@ -14,3 +14,6 @@ a library computer lab.
 
 To currently run the demo of the code (has no interface built yet) into the terminal to get some basic results:
 - Right 'Click ModelTest.java' in 'com.cleb.model' package and run as Java application.
+
+How to current get all the files onto your computer:
+Download
