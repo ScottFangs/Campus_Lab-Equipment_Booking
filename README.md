@@ -15,5 +15,7 @@ a library computer lab.
 To currently run the demo of the code (has no interface built yet) into the terminal to get some basic results:
 - Right 'Click ModelTest.java' in 'com.cleb.model' package and run as Java application.
 
-How to current get all the files onto your computer:
-Download
+
+How to current get all the files onto your computer (as of March 24th 2026):
+- Download CLEB, client and server folders.
+- Add the client and server folders into the CLEB folder at this path CLEB2\src\main\java\com\cleb
