@@ -18,7 +18,7 @@ a library computer lab.
 - Download all the files in UPDATED CLEB 2
 
 
-+ How to Run the Project:
++How to Run the Project:
 - Start the Database
 Open USBWebserver → Start MySQL (port 3307)
 Open phpMyAdmin (localhost/phpmyadmin)
