@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Reservation implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private int reservationId;
+	private long reservationId;
 	private User bookedBy;
 	private String startTime;
 	private String endTime;
@@ -14,7 +14,7 @@ public class Reservation implements Serializable{
 	private String status;
 	
 	
-	public Reservation(int reservationId, User bookedBy, String startTime, String endTime, Seat seat, Equipment equip, String status) {
+	public Reservation(long reservationId, User bookedBy, String startTime, String endTime, Seat seat, Equipment equip, String status) {
 		this.reservationId = reservationId;
         this.bookedBy = bookedBy;
         this.startTime = startTime;
@@ -44,12 +44,12 @@ public class Reservation implements Serializable{
 		this.status = r.status;
 	}
 
-	public int getReservationId() {
+	public long getReservationId() {
 		return reservationId;
 	}
-
-	public void setReservationId(int reservationId) {
-		this.reservationId = reservationId;
+	
+	public void setReservationId(long reservationId) { 
+	    this.reservationId = reservationId; 
 	}
 
 	public User getBookedBy() {

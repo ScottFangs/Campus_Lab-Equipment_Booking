@@ -1,11 +1,13 @@
-package com.cleb.common;
+	package com.cleb.common;
 
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Request implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	private UUID correlationId = UUID.randomUUID();
 	private String action;
 	private Object payload;
 	
@@ -44,6 +46,11 @@ public class Request implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public UUID getCorrelationId() {
+        return correlationId;
+    }
+	
 
 	@Override
 	public String toString() {

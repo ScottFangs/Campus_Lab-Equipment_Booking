@@ -1,0 +1,3 @@
+2026-03-24 22:06:17 [main] INFO  com.cleb.server.DAOTest - User login test passed
+2026-03-24 22:06:17 [main] INFO  com.cleb.dao.JdbcUserDAO - User added: teststudent
+2026-03-24 22:06:17 [main] INFO  com.cleb.dao.JdbcReservationDAO - Reservation created for user demario
