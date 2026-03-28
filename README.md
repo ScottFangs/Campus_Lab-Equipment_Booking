@@ -16,12 +16,13 @@ a library computer lab.
 
 +How to current get all the files onto your computer (as of March 28th 2026):
 - Download all the files in UPDATED CLEB 2
+
+
 + How to Run the Project:
 - Start the Database
 Open USBWebserver → Start MySQL (port 3307)
-Open phpMyAdmin (http://localhost/phpmyadmin)
+Open phpMyAdmin (localhost/phpmyadmin)
 Make sure database cleb_db exists with the tables and sample users.
-
 
 - Start the Server
 Run ServerMain.java first (it must be running before clients connect).
