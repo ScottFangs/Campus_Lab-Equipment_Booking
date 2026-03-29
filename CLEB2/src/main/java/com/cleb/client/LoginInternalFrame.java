@@ -10,11 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginInternalFrame extends JInternalFrame {
-	
-	private static final long serialVersionUID = 1L;
-	
-	
-	private JTextField txtUsername;
+
+    private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JButton btnLogin;
     private JButton btnCancel;
@@ -87,11 +84,15 @@ public class LoginInternalFrame extends JInternalFrame {
                     
                     dispose();   // close login window
 
-                    // Call the method in ClientMain to connect to server
-                    ClientMain mainFrame = (ClientMain) getDesktopPane().getTopLevelAncestor();
-                    if (mainFrame != null) {
-                        mainFrame.onSuccessfulLogin(user);
-                    }
+                    // Safely open DataViewer (no risky cast)
+                    SwingUtilities.invokeLater(() -> {
+                        JDesktopPane desktop = getDesktopPane();
+                        if (desktop != null) {
+                            DataViewerInternalFrame frame = new DataViewerInternalFrame();
+                            desktop.add(frame);
+                            frame.setVisible(true);
+                        }
+                    });
                 } else {
                     JOptionPane.showMessageDialog(LoginInternalFrame.this, 
                         "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);

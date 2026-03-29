@@ -6,6 +6,7 @@ import com.cleb.server.ServiceFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,87 +22,77 @@ public class DataViewerInternalFrame extends JInternalFrame {
 
     public DataViewerInternalFrame() {
         super("Live Data from Database - Pending Reservations", true, true, true, true);
-        setSize(950, 650);
+        setSize(1000, 650);
         setLayout(new GridBagLayout());
 
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(12, 12, 12, 12);
 
-        // Title Label
         JLabel lblTitle = new JLabel("Pending Reservations (Live from MySQL)");
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         add(lblTitle, gbc);
 
-        // Create the JTable
-        String[] columns = {"Reservation ID", "Booked By", "Start Time", "End Time", "Status"};
+        String[] columns = {"Reservation ID", "Booked By", "Lab", "Type", "Start Time", "End Time", "Status"};
         model = new DefaultTableModel(columns, 0);
         table = new JTable(model);
 
-        JScrollPane scrollPane = new JScrollPane(table);
+        JScrollPane scroll = new JScrollPane(table);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        add(scrollPane, gbc);
+        add(scroll, gbc);
 
-        // Refresh Button
-        btnRefresh = new JButton("REFRESH FROM DATABASE");
+        btnRefresh = new JButton("REFRESH");
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
         add(btnRefresh, gbc);
 
-        btnRefresh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadLiveData();
-            }
-        });
+        btnRefresh.addActionListener(e -> loadPendingReservations());
 
-        // Close Button
-        btnClose = new JButton("CLOSE WINDOW");
+        btnClose = new JButton("CLOSE");
         gbc.gridx = 1;
         gbc.gridy = 2;
-        gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.CENTER;
         add(btnClose, gbc);
 
         btnClose.addActionListener(e -> dispose());
 
-        // Load data when the window opens
-        loadLiveData();
+        loadPendingReservations();
     }
 
-    private void loadLiveData() {
-        // Clear old rows
+    public void loadPendingReservations() {
         model.setRowCount(0);
+        ReservationDAO dao = ServiceFactory.getReservationDAO();
+        List<Reservation> list = dao.getPendingReservations();
 
-        // Get real data from database using DAO
-        ReservationDAO resDAO = ServiceFactory.getReservationDAO();
-        List<Reservation> pending = resDAO.getPendingReservations();
+        for (Reservation r : list) {
+            String labName = "Unknown Lab";
+            String type = "Unknown";
 
-        for (Reservation r : pending) {
+            if (r.getBookedSeat() != null && r.getBookedSeat().getLab() != null) {
+                labName = r.getBookedSeat().getLab().getName();
+                type = "Seat";
+            } else if (r.getBookedEquipment() != null && r.getBookedEquipment().getLab() != null) {
+                labName = r.getBookedEquipment().getLab().getName();
+                type = "Equipment";
+            }
+
             model.addRow(new Object[]{
                 r.getReservationId(),
                 r.getBookedBy() != null ? r.getBookedBy().getUsername() : "Unknown",
+                labName,
+                type,
                 r.getStartTime(),
                 r.getEndTime(),
                 r.getStatus()
             });
-        }
-
-        if (pending.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No pending reservations found in database", "Info", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Loaded " + pending.size() + " pending reservations from MySQL", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

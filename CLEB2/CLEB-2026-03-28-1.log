@@ -1,0 +1,64 @@
+2026-03-28 10:51:42 [main] ERROR com.cleb.server.ServerMain - Server crashed
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at java.base/sun.nio.ch.Net.bind(Net.java:550) ~[?:?]
+	at java.base/sun.nio.ch.Net.bind(Net.java:539) ~[?:?]
+	at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:643) ~[?:?]
+	at java.base/java.net.ServerSocket.bind(ServerSocket.java:396) ~[?:?]
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:282) ~[?:?]
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:173) ~[?:?]
+	at com.cleb.server.ServerMain.main(ServerMain.java:20) [classes/:?]
+2026-03-28 10:52:20 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 1 pending reservations from database
+2026-03-28 10:52:30 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 1 pending reservations from database
+2026-03-28 10:53:04 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 1 pending reservations from database
+2026-03-28 10:53:16 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 1 pending reservations from database
+2026-03-28 10:53:22 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 1 pending reservations from database
+2026-03-28 10:53:49 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 1 pending reservations from database
+2026-03-28 12:39:39 [main] ERROR com.cleb.server.ServerMain - Server crashed
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at java.base/sun.nio.ch.Net.bind(Net.java:550) ~[?:?]
+	at java.base/sun.nio.ch.Net.bind(Net.java:539) ~[?:?]
+	at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:643) ~[?:?]
+	at java.base/java.net.ServerSocket.bind(ServerSocket.java:396) ~[?:?]
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:282) ~[?:?]
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:173) ~[?:?]
+	at com.cleb.server.ServerMain.main(ServerMain.java:20) [classes/:?]
+2026-03-28 12:39:58 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 1 pending reservations from database
+2026-03-28 12:40:06 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Reservation created for user demario
+2026-03-28 12:40:15 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Reservation created for user demario
+2026-03-28 12:40:31 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:40:46 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:40:50 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:40:54 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:40:55 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:40:57 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:41:03 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:41:33 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:41:35 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:41:38 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 3 pending reservations from database
+2026-03-28 12:41:49 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Reservation created for user giomar
+2026-03-28 12:41:54 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 4 pending reservations from database
+2026-03-28 12:42:03 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 4 pending reservations from database
+2026-03-28 12:42:08 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Reservation created for user giomar
+2026-03-28 12:42:10 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 5 pending reservations from database
+2026-03-28 12:42:42 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 5 pending reservations from database
+2026-03-28 12:42:49 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 5 pending reservations from database
+2026-03-28 12:42:52 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 5 pending reservations from database
+2026-03-28 12:42:56 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 5 pending reservations from database
+2026-03-28 13:05:15 [main] ERROR com.cleb.server.ServerMain - Server crashed
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method) ~[?:?]
+	at java.base/sun.nio.ch.Net.bind(Net.java:550) ~[?:?]
+	at java.base/sun.nio.ch.Net.bind(Net.java:539) ~[?:?]
+	at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:643) ~[?:?]
+	at java.base/java.net.ServerSocket.bind(ServerSocket.java:396) ~[?:?]
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:282) ~[?:?]
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:173) ~[?:?]
+	at com.cleb.server.ServerMain.main(ServerMain.java:20) [classes/:?]
+2026-03-28 13:05:42 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Reservation created for user demario
+2026-03-28 13:06:20 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 8 pending reservations from database
+2026-03-28 13:06:44 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 8 pending reservations from database
+2026-03-28 13:06:48 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 8 pending reservations from database
+2026-03-28 13:07:03 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 8 pending reservations from database
+2026-03-28 13:07:06 [AWT-EventQueue-0] INFO  com.cleb.dao.JdbcReservationDAO - Retrieved 8 pending reservations from database

@@ -1,9 +1,12 @@
 package com.cleb.dao;
 
 import com.cleb.model.Admin;
+import com.cleb.model.Equipment;
+import com.cleb.model.Lab;
 import com.cleb.model.Reservation;
 import com.cleb.model.User;
 import com.cleb.model.Role;
+import com.cleb.model.Seat;
 import com.cleb.model.Student;
 import com.cleb.model.Technician;
 
@@ -46,8 +49,10 @@ public class JdbcReservationDAO implements ReservationDAO {
     @Override
     public List<Reservation> getPendingReservations() {
         List<Reservation> list = new ArrayList<>();
+        
         String sql = """
-            SELECT r.*, u.userId, u.username, u.role 
+            SELECT r.reservationId, r.startTime, r.endTime, r.status,
+                   u.userId, u.username, u.role
             FROM reservations r 
             JOIN users u ON r.userId = u.userId 
             WHERE r.status = 'PENDING' 
@@ -59,11 +64,9 @@ public class JdbcReservationDAO implements ReservationDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                // Create correct User subclass (Student / Admin / Technician)
-                String roleStr = rs.getString("role");
-                Role role = Role.valueOf(roleStr);
+                // Create the correct User type
+                Role role = Role.valueOf(rs.getString("role"));
                 User bookedBy;
-
                 if (role == Role.STUDENT) {
                     bookedBy = new Student(rs.getInt("userId"), rs.getString("username"), "");
                 } else if (role == Role.ADMIN) {
@@ -72,7 +75,6 @@ public class JdbcReservationDAO implements ReservationDAO {
                     bookedBy = new Technician(rs.getInt("userId"), rs.getString("username"), "");
                 }
 
-                // Create Reservation and set all fields
                 Reservation r = new Reservation();
                 r.setReservationId(rs.getLong("reservationId"));
                 r.setBookedBy(bookedBy);
@@ -83,7 +85,7 @@ public class JdbcReservationDAO implements ReservationDAO {
                 list.add(r);
             }
 
-            logger.info("Retrieved " + list.size() + " pending reservations from database");
+            logger.info("Retrieved " + list.size() + " pending reservations");
 
         } catch (SQLException e) {
             logger.error("Failed to get pending reservations", e);
@@ -92,6 +94,7 @@ public class JdbcReservationDAO implements ReservationDAO {
 
         return list;
     }
+    
     
     
     @Override
