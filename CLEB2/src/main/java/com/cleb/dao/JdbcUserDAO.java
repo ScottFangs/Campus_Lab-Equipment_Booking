@@ -1,7 +1,10 @@
 package com.cleb.dao;
 
 import com.cleb.model.User;
+import com.cleb.model.Admin;
 import com.cleb.model.Role;
+import com.cleb.model.Student;
+import com.cleb.model.Technician;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,6 +17,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.cleb.auth.PasswordUtil;
 import com.cleb.client.DataViewerInternalFrame;
 
 
@@ -26,35 +31,40 @@ public class JdbcUserDAO implements UserDAO {
     private static final String PASSWORD = "usbw";
 
     @Override
-    public User authenticate(String username, String password) {
-        String sql = "SELECT userId, username, password, role FROM users WHERE username = ? AND password = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+public User authenticate(String username, String password) {
+    //we fetch the stored hash and salt by username alone
+    String sql = "SELECT userId, username, password_hash, salt, role " +
+                 "FROM users WHERE username = ?";
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
+        pstmt.setString(1, username);
 
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    int id = rs.getInt("userId");
-                    String roleStr = rs.getString("role");
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                String storedHash = rs.getString("password_hash");
+                String salt       = rs.getString("salt");
 
-                    Role role = Role.valueOf(roleStr);
-                    if (role == Role.STUDENT) {
-                        return new com.cleb.model.Student(id, username, password);
-                    } else if (role == Role.ADMIN) {
-                        return new com.cleb.model.Admin(id, username, password);
-                    } else {
-                        return new com.cleb.model.Technician(id, username, password);
-                    }
-                }
+                //verify the password using PBKDF2
+                boolean valid = PasswordUtil.verifyPassword(password, salt, storedHash);
+                if (!valid) return null; // if it's the wrong password
+
+
+                int    id      = rs.getInt("userId");
+                String roleStr = rs.getString("role");
+                Role   role    = Role.valueOf(roleStr);
+
+                if (role == Role.STUDENT)    return new Student(id, username, password);
+                if (role == Role.ADMIN)      return new Admin(id, username, password);
+                return new Technician(id, username, password);
             }
-        } catch (SQLException e) {
-            logger.error("Authentication failed", e);
-            throw new DatabaseException("Login failed", e);
         }
-        return null;
+    } catch (SQLException e) {
+        logger.error("Authentication failed", e);
+        throw new DatabaseException("Login failed", e);
     }
+    return null;
+}
 
     @Override
     public void addUser(User user) {
