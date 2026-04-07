@@ -1,7 +1,10 @@
 package com.cleb.dao;
 
 import com.cleb.model.User;
+import com.cleb.model.Admin;
 import com.cleb.model.Role;
+import com.cleb.model.Student;
+import com.cleb.model.Technician;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,6 +17,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.cleb.auth.PasswordUtil;
 import com.cleb.client.DataViewerInternalFrame;
 
 
@@ -27,26 +32,31 @@ public class JdbcUserDAO implements UserDAO {
 
     @Override
     public User authenticate(String username, String password) {
-        String sql = "SELECT userId, username, password, role FROM users WHERE username = ? AND password = ?";
+        // We fetch the stored hash and salt by username
+        String sql = "SELECT userId, username, password_hash, salt, role " +
+                     "FROM users WHERE username = ?";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    int id = rs.getInt("userId");
-                    String roleStr = rs.getString("role");
+                    String storedHash = rs.getString("password_hash");
+                    String salt       = rs.getString("salt");
 
-                    Role role = Role.valueOf(roleStr);
-                    if (role == Role.STUDENT) {
-                        return new com.cleb.model.Student(id, username, password);
-                    } else if (role == Role.ADMIN) {
-                        return new com.cleb.model.Admin(id, username, password);
-                    } else {
-                        return new com.cleb.model.Technician(id, username, password);
-                    }
+                  // verify the password using PBKDF2
+                    boolean valid = PasswordUtil.verifyPassword(password, salt, storedHash);
+                    if (!valid) return null; // wrong password
+
+                    //build and return the correct User 
+                    int    id      = rs.getInt("userId");
+                    String roleStr = rs.getString("role");
+                    Role   role    = Role.valueOf(roleStr);
+
+                    if (role == Role.STUDENT)    return new Student(id, username, password);
+                    if (role == Role.ADMIN)      return new Admin(id, username, password);
+                    return new Technician(id, username, password);
                 }
             }
         } catch (SQLException e) {
@@ -56,22 +66,29 @@ public class JdbcUserDAO implements UserDAO {
         return null;
     }
 
-    @Override
-    public void addUser(User user) {
-        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+@Override
+public void addUser(User user) {
+    // Hash the password before storing
+    String salt = PasswordUtil.generateSalt();
+    String hash = PasswordUtil.hashPassword(user.getPassword(), salt);
 
-            pstmt.setString(1, user.getUsername());
-            pstmt.setString(2, user.getPassword());
-            pstmt.setString(3, user.getRole().name());
-            pstmt.executeUpdate();
-            logger.info("User added: " + user.getUsername());
-        } catch (SQLException e) {
-            logger.error("Failed to add user", e);
-            throw new DatabaseException("Failed to add user", e);
-        }
+    String sql = "INSERT INTO users (username, email, password_hash, salt, role) " +
+                 "VALUES (?, ?, ?, ?, ?)";
+    try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        pstmt.setString(1, user.getUsername());  //username getter on User
+        pstmt.setString(2, user.getEmail());   //email getter on User
+        pstmt.setString(3, hash);
+        pstmt.setString(4, salt);
+        pstmt.setString(5, user.getRole().name());
+        pstmt.executeUpdate();
+        logger.info("User added: " + user.getUsername());
+    } catch (SQLException e) {
+        logger.error("Failed to add user", e);
+        throw new DatabaseException("Failed to add user", e);
     }
+}
 
     @Override
     public List<User> getAllUsers() {
@@ -83,7 +100,7 @@ public class JdbcUserDAO implements UserDAO {
 
             while (rs.next()) {
                 // For simplicity we only create basic User objects here
-                // You can expand later to create proper Student/Admin/Technician
+                // You can expand later to create proper Student//Technician
                 User u = new com.cleb.model.Student(
                     rs.getInt("userId"),
                     rs.getString("username"),
