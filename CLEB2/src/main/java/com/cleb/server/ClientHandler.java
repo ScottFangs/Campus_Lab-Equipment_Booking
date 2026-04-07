@@ -6,6 +6,7 @@ import com.cleb.dao.ReservationDAO;
 import com.cleb.model.Reservation;
 import com.cleb.model.User;
 import com.cleb.server.ServiceFactory;
+import com.cleb.dao.UserDAO;
 
 import java.io.*;
 import java.net.Socket;
@@ -52,9 +53,16 @@ public class ClientHandler implements Runnable {
         Object payload = request.getPayload();
 
         if ("LOGIN".equals(action)) {
-            User user = (User) payload;
-            loggedInUser = user;
-            return new Response(request.getCorrelationId(), "SUCCESS", user);
+            String[] credentials = (String[]) payload; // [username, password]
+            UserDAO userDAO = ServiceFactory.getUserDAO();
+            User user = userDAO.authenticate(credentials[0], credentials[1]);
+
+            if (user != null) {
+                loggedInUser = user;
+                return new Response(request.getCorrelationId(), "SUCCESS", user);
+            } else {
+                return new Response(request.getCorrelationId(), "FAIL", "Invalid credentials");
+            }
         }
 
         if ("BOOK".equals(action)) {
